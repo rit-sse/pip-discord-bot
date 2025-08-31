@@ -1,0 +1,19 @@
+{
+  "name": "pip-discord-bot",
+  "version": "1.0.0",
+  "description": "Created for the RIT SSE Discord Server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rit-sse/pip-discord-bot.git"
+  },
+  "author": "Jaiden Johnson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rit-sse/pip-discord-bot/issues"
+  },
+  "homepage": "https://github.com/rit-sse/pip-discord-bot#readme"
+}
