@@ -1,7 +1,7 @@
-import { SlashCommandBuilder } from 'discord.js';
+const { SlashCommandBuilder } = require('discord.js');
 // This is to help set up the slash command!
 
-export const data = new SlashCommandBuilder()
+const data = new SlashCommandBuilder()
     // Lowercase only, Duplicates may cause problems
     .setName('test')
     // Set's the description of the command.
@@ -16,7 +16,7 @@ export const data = new SlashCommandBuilder()
 * @param {config.js} config The configuration set in config.js.
 * @param {DiscordInteraction} interaction The slash command interaction.
 */
-export async function execute(client, config, interaction) {
+async function execute(client, config, interaction) {
     await interaction.reply('Hey, it works!');
     // Replies to the interaction with a message!
     
@@ -38,4 +38,7 @@ export async function execute(client, config, interaction) {
     - Any added parameters must be set in index.js in an identical order. Execute parameters must be the same in all files.
     - Parameters work as local variables; Their values can be changed within the function.
     */
-};
+}
+
+// Exports the data and execute function for use in index.js
+module.exports = { data, execute };

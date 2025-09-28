@@ -1,15 +1,15 @@
 // The purpose of this file is purely initialization of the bot and all of its commands, as well as command handling.
 
-// Discord definitions
-import { Collection } from 'discord.js';
-import { Routes } from 'discord.js';
-import { REST } from '@discordjs/rest';
-// Sets the config file as a variable
-import config, { client, clientId, guildId, name, TOKEN } from './config';
+// Discord definitions (CommonJS requires)
+const { Collection, Routes } = require('discord.js');
+const { REST } = require('@discordjs/rest');
+// Sets the config file as a variable (supports both module.exports and ES default export)
+const config = require('./config.js');
+const { client, clientId, guildId, name, TOKEN } = config;
 // "fs" to read files
-import { readdirSync } from 'node:fs';
+const { readdirSync } = require('node:fs');
 // "path" to find files without having to input a path.
-import { join } from 'node:path';
+const { join } = require('node:path');
 
 // Finds the path of the folder titled "slash_commands"
 const sCommandsPath = join(__dirname, 'slash_commands'); // __dirname is the current directory of this file
@@ -33,7 +33,7 @@ for (const file of sCommandFiles) {
 }
 
 // Once the bot is online, do this ONCE...
-client.once('ready', async () => {
+client.once('clientReady', async () => {
   // When the client boots up, it'll tell you in the Output/Terminal.
   console.log(`\n\n${name} IS ONLINE!\n\n`);
 
@@ -67,7 +67,7 @@ client.on('interactionCreate', async interaction => {
   // Grabs the name of the slash command that was initiated!
   const { commandName } = interaction;
   // Attempts to find the requested command
-  const called = client.commands.get(commandName);
+  const called = client.sCommands.get(commandName);
   // This executes the files and sets the parameters client, config, and interaction.
   // If you change this parameters list, you may have to change it in all files under the "slash_commands" folder.
   if (called) called.execute(client, config, interaction);

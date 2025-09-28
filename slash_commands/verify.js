@@ -1,7 +1,69 @@
 // This is to help set up the slash command!
-import { SlashCommandBuilder, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } from 'discord.js';
+const { SlashCommandBuilder, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, ButtonBuilder, ButtonStyle, MessageFlags } = require('discord.js');
 
-export const data = new SlashCommandBuilder()
+/**
+ * All of these variables are for all of the menus, buttons, and modals that appear during the verification process.
+ * They are defined here before the execute function to keep the function cleaner.
+ */
+
+// These constants are each of the 3 modals using Discord's ModalBuilder.
+const emailVerificationModal = new ModalBuilder()
+    .setCustomId('emailVerify')
+    .setTitle('Verify Your Email');
+
+const codeVerificationModal = new ModalBuilder()
+    .setCustomId('codeVerify')
+    .setTitle('Code Sent!');
+
+const nicknameChangeModal = new ModalBuilder()
+    .setCustomId('nicknameChange')
+    .setTitle('Welcome to the SSE!');
+
+// These constants are each of the inputs within each modal.
+const emailInput = new TextInputBuilder()
+    .setCustomId('emailInput')
+    // The label is the prompt the user sees for this input
+    .setLabel("Enter your RIT Email")
+    .setPlaceholder("abc1234@rit.edu")
+    // Short means only a single line of text
+    .setStyle(TextInputStyle.Short)
+    .setRequired(false);
+
+const codeInput = new TextInputBuilder()
+    .setCustomId('codeInput')
+    // The label is the prompt the user sees for this input
+    .setLabel("Enter the code sent to your email")
+    .setPlaceholder("123456")
+    .setMinLength(6)
+    .setMaxLength(6)
+    // Short means only a single line of text
+    .setStyle(TextInputStyle.Short)
+    .setRequired(true);
+
+const nicknameInput = new TextInputBuilder()
+    .setCustomId('nicknameInput')
+    // The label is the prompt the user sees for this input
+    .setLabel("What is your name?")
+    .setPlaceholder("John Doe")
+    // Short means only a single line of text
+    .setStyle(TextInputStyle.Short)
+    .setRequired(false);
+
+const enterCodeButton = new ButtonBuilder()
+    .setCustomId('enterCode')
+    .setLabel('Enter Code')
+    .setStyle(ButtonStyle.Primary);
+
+// This puts the inputs and modals together and into each pop-up modal.
+const emailVerificationRow = new ActionRowBuilder().addComponents(emailInput);
+const codeVerificationRow = new ActionRowBuilder().addComponents(codeInput);
+const nicknameChangeRow = new ActionRowBuilder().addComponents(nicknameInput);
+const enterCodeButtonRow = new ActionRowBuilder().addComponents(enterCodeButton);
+emailVerificationModal.addComponents(emailVerificationRow);
+codeVerificationModal.addComponents(codeVerificationRow);
+nicknameChangeModal.addComponents(nicknameChangeRow);
+
+const data = new SlashCommandBuilder()
     // Lowercase only, Duplicates may cause problems
     .setName('verify')
     // Set's the description of the command.
@@ -16,65 +78,36 @@ export const data = new SlashCommandBuilder()
  * @param {config.js} config The configuration set in config.js.
  * @param {DiscordInteraction} interaction The slash command interaction.
  */
-export async function execute(client, config, interaction) {
-    // These constants are each of the 3 modals using Discord's ModalBuilder.
-    const emailVerificationModal = new ModalBuilder()
-        .setCustomId('emailVerify')
-        .setTitle('Verify Your Email');
-
-    const codeVerificationModal = new ModalBuilder()
-        .setCustomId('codeVerify')
-        .setTitle('Code Sent!');
-
-    const nicknameChangeModal = new ModalBuilder()
-        .setCustomId('nicknameChange')
-        .setTitle('Welcome to the SSE!');
-
-    // These constants are each of the inputs within each modal.
-    const emailInput = new TextInputBuilder()
-        .setCustomId('emailInput')
-        // The label is the prompt the user sees for this input
-        .setLabel("Enter your RIT Email")
-        .setPlaceholder("abc1234@rit.edu")
-        // Short means only a single line of text
-        .setStyle(TextInputStyle.Short)
-        .setRequired(false);
-
-    const codeInput = new TextInputBuilder()
-        .setCustomId('codeInput')
-        // The label is the prompt the user sees for this input
-        .setLabel("Enter the code sent to your email")
-        .setPlaceholder("123456")
-        .setMinLength(10)
-        // Short means only a single line of text
-        .setStyle(TextInputStyle.Short)
-        .setRequired(true);
-
-    const nicknameInput = new TextInputBuilder()
-        .setCustomId('nicknameInput')
-        // The label is the prompt the user sees for this input
-        .setLabel("What is your name?")
-        .setPlaceholder("John Doe")
-        // Short means only a single line of text
-        .setStyle(TextInputStyle.Short)
-        .setRequired(false);
-
-    // This puts the inputs and modals together and into each pop-up modal.
-    const emailVerificationRow = new ActionRowBuilder().addComponents(emailInput);
-    const codeVerificationRow = new ActionRowBuilder().addComponents(codeInput);
-    const nicknameChangeRow = new ActionRowBuilder().addComponents(nicknameInput);
-    emailVerificationModal.addComponents(emailVerificationRow);
-    codeVerificationModal.addComponents(codeVerificationRow);
-    nicknameChangeModal.addComponents(nicknameChangeRow);
-
-    // Show the modal!
-    await interaction.showModal(modal);
+async function execute(client, config, interaction) {
+    // Show the first modal!
+    await interaction.showModal(emailVerificationModal);
 
     // Wait patiently for the user to respond. This only waits for the specific modal and the exact same member.
-    const filter = (modalInteraction) => modalInteraction.customId === 'emailVerify' && modalInteraction.member.id === interaction.member.id;
-    interaction.awaitModalSubmit({ filter })
-        .then(emailVerificationModalInteraction => {
+    const filterEmailModal = (modalInteraction) => modalInteraction.customId === 'emailVerify' && modalInteraction.member.id === interaction.member.id;
+    interaction.awaitModalSubmit({ filter: filterEmailModal, time: 60_000 }) // Times out after 1 minute
+        .then(async emailVerificationModalInteraction => {
+            // The email that the user entered.
             const email = emailVerificationModalInteraction.fields.getTextInputValue('emailInput');
+
+            // Reply to the modal to avoid an "interaction failed" error.
+            const enterCodeMessage = await emailVerificationModalInteraction.reply({
+                content: `Sent a code to the email that was provided. Please press the button below to enter the code. Code will expire in 5 minutes.`, // The message shown to the user
+                components: [enterCodeButtonRow], // The Enter Code button
+                flags: MessageFlags.Ephemeral // Hidden from other users
+            });
+
+            const filterEnterCodeButton = (buttonInteraction) => buttonInteraction.customId === 'enterCode' && buttonInteraction.member.id === interaction.member.id;
+            enterCodeMessage.awaitMessageComponent({ filter: filterEnterCodeButton, time: 300_000 }) // Times out after 5 minutes.
+                .then(async buttonInteraction => {
+                    // Show the code verification modal!
+                    await buttonInteraction.showModal(codeVerificationModal);
+
+                    const filterEnterCodeInput = (modalInteraction) => modalInteraction.customId === 'codeInput' && modalInteraction.member.id === interaction.member.id;
+                    interaction.awaitModalSubmit({ filter: filterEnterCodeInput, time: 60_000 })
+                        .then(async codeVerificationModalInteraction => {
+                            
+                        })
+                })
 
             /* ===== TODO =====
              * 1. Check if the user's email ends with @rit.edu or @g.rit.edu
@@ -123,4 +156,6 @@ export async function execute(client, config, interaction) {
              */
         })
         .catch(console.error);
-};
+}
+
+module.exports = { data, execute };

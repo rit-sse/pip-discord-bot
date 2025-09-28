@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/rit-sse/pip-discord-bot/issues"
   },
-  "homepage": "https://github.com/rit-sse/pip-discord-bot#readme"
+  "homepage": "https://github.com/rit-sse/pip-discord-bot#readme",
+  "dependencies": {
+    "discord.js": "^14.22.1"
+  }
 }
