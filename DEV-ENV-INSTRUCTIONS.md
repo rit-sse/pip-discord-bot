@@ -44,8 +44,9 @@ Once you have the above pre-reqs, continue with the environment setup outlined b
 3. Open a new terminal (ctrl/cmd+j), ensure you are in the project root directoy, and enter `docker-compose up --build`. The `--build` flag ensures Docker will build your app from scratch, and cache the resources neccesary to (re-)build it again. The first time, this will take a WHILE, anywhere from 5-10 minutes. Maybe you can run that command while you finish reading this doc!
 
 ## Returning Startup & Rebuild
-1. Using an IDE of your choice, open the codebase.
-2. Open a new terminal (ctrl/cmd+j for VS Code), ensure you are in the project root directoy, and enter `docker-compose up`. This terminal must remain open, as it is essentially the location where the app is running.
+1. Open Docker Desktop (if installed)
+2. Using an IDE of your choice, open the codebase.
+3. Open a new terminal (ctrl/cmd+j for VS Code), ensure you are in the project root directoy, and enter `docker-compose up`. This terminal must remain open, as it is essentially the location where the app is running.
 
 !! Important note: the `-d` (`docker-compose up -d`) flag runs the Docker image in the background, in a seperate session. Only use this flag when you remember to `docker-compose down` when you are finished, as outlined below. If you want to access your image while developing, I reccomend running without the `-d` flag, as outlined in the command above.
 
