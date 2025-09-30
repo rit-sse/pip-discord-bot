@@ -27,4 +27,4 @@ RUN npm ci
 COPY . .
 
 # When container is ready, this will run as "{arg1} {arg2}" in the container's command line
-CMD ["npm", "run", "start"]
+CMD ["node", "index.js"]

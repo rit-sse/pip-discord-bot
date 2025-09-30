@@ -14,11 +14,8 @@ services:
     # Database should start before bot
     depends_on:
       - db
-    # Needed for web server (OAuth2 callbacks)
-    ports:
-      - "3000:3000"
     
-    # Production: Remove these mounts
+    # Productoin: Remove these mounts
     volumes:
       - .:/usr/src/pip-bot
       # This prevents local and container node_modules from colliding
