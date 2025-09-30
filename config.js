@@ -5,10 +5,10 @@ const { Client, GatewayIntentBits } = require('discord.js');
 // A bot is not connected yet.
 module.exports = {
     client: new Client({ intents: [] }),
-    clientId: `-`, // The ID of the bot
-    guildId: `-`, // The ID of the server (currently set to a test server)
+    clientId: process.env.TEST_CLIENT_ID, // The ID of the bot
+    guildId: process.env.TEST_SERVER_ID, // The ID of the server (currently set to a test server)
     name: 'Pip',
-    TOKEN: `-` // Must be kept secret! Uploading this publicly will automatically reset it.
+    TOKEN: process.env.DISCORD_TOKEN // Must be kept secret! Uploading this publicly will automatically reset it.
 }
 
 //  Within the slash_commands folder, the "config" parameter references this file and can get these properties (e.g "config.client").
