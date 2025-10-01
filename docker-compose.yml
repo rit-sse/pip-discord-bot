@@ -15,7 +15,7 @@ services:
     depends_on:
       - db
     
-    # Productoin: Remove these mounts
+    # Production: Remove these mounts
     volumes:
       - .:/usr/src/pip-bot
       # This prevents local and container node_modules from colliding
