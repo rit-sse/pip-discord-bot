@@ -1,0 +1,52 @@
+# Project: RIT SSE Pip Bot
+# Purpose: Docker Compose file for container service definitions and portability
+
+# 9/30/2025
+# Author: Orion Mulgrew | RIT SSE
+
+# ----- DO NOT EDIT BELOW THIS LINE -----
+services:
+  bot:
+    build: .
+    container_name: pip-discord-bot
+    restart: unless-stopped
+    env_file: .env
+    # Database should start before bot
+    depends_on:
+      - db
+    
+    # Production: Remove these mounts
+    volumes:
+      - .:/usr/src/pip-bot
+      # This prevents local and container node_modules from colliding
+      - /usr/src/pip-bot/node_modules
+    networks:
+      - bot-network
+
+  db:
+    # Official PostgreSQL image, tagged for Debian 11 (Bullseye)
+    image: postgres:16-bullseye
+    container_name: pip-postgres-db
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    # This helps persist db states across container restarts
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    # Ports avoid conflicts if local Postgres is installed, but allow 'remote' connection
+    ports:
+      - "5433:5432"
+    networks:
+      - bot-network
+
+# Allows bot to talk to db
+networks:
+  bot-network:
+    driver: bridge
+
+# Defines a Postgres volume to connect to
+volumes:
+  postgres-data:
