@@ -19,7 +19,7 @@ To ensure WSL and Docker are communicating properly, open a terminal and run `do
 ### Docker Compose
 This should be included with Docker Desktop.
 
-To ensure it is properly installed, please run `docker-compose --verison` in a terminal. This should print a version number, with no errors.
+To ensure it is properly installed, please run `docker compose version` in a terminal. This should print a version number, with no errors.
 
 
 # Linux (Debian, Ubuntu) / Mac Setup
