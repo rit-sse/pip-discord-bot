@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/rit-sse/pip-discord-bot#readme",
   "dependencies": {
-    "discord.js": "^14.22.1"
+    "discord.js": "^14.22.1",
+    "express": "^5.1.0"
   }
 }

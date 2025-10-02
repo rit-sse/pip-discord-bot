@@ -44,9 +44,12 @@ client.once('clientReady', async () => {
   // This sets the authorization token that should be used for requests. The bots' token is the key to any listeners.
   const rest = new REST({ version: '10' }).setToken(TOKEN);
 
+  // Start the web server
+  require('./ext/webserver.js');
+
   await rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: sCommands.map(command => command.toJSON()) })
-    .then(() => console.log(`Successfully re-registered application commands.\n\n`))
-    .catch(console.error);
+     .then(() => console.log(`Successfully re-registered application commands.\n\n`))
+     .catch(console.error);
   // (Basically) updates and creates all slash commands in the slash_commands folder!
 
   /*
