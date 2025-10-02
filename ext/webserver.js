@@ -1,9 +1,9 @@
-const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, SIGNING_SECRET, REDIRECT_URI } = require('../config.js');
+const { WEBSERVER_PORT, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, SIGNING_SECRET, REDIRECT_URI } = require('../config.js');
 const { verify } = require('../ext/integrity.js');
 const express = require('express');
 
 const app = express();
-const port = 3000;
+const port = WEBSERVER_PORT
 
 app.use(express.json());
 
@@ -51,12 +51,12 @@ app.get('/api/auth', async (req, res) => {
         // TODO: Link `discord` with `email` in db
         // TODO: Change username to `name`
         // TODO: Assign verified role
-        
+
         res.send(`Successfully verified ${email} (${name})! You may close this window and return to Discord.`);
 
     } catch (err) {
-        res.status(500).send('Server error');
-        throw err;
+        console.error('Error during /api/auth:', err);
+        res.status(500).send(`Server error: ${err.message}`);
     }
 });
 
