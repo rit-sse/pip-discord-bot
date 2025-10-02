@@ -55,8 +55,8 @@ app.get('/api/auth', async (req, res) => {
         res.send(`Successfully verified ${email} (${name})! You may close this window and return to Discord.`);
 
     } catch (err) {
-        console.error('Error during /api/auth:', err);
-        res.status(500).send(`Server error: ${err.message}`);
+        console.error('Error during /api/auth:', err && err.message ? err.message : err);
+        res.status(500).send('Server error: An unexpected error occurred.');
     }
 });
 
