@@ -11,8 +11,11 @@ module.exports = {
     TOKEN: process.env.DISCORD_TOKEN, // Must be kept secret! Uploading this publicly will automatically reset it.
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
-    SIGNING_SECRET: crypto.randomUUID(), // FIXME: Make a permanent secret in production
-    REDIRECT_URI: process.env.REDIRECT_URI
+    SIGNING_SECRET: process.env.SIGNING_SECRET || crypto.randomUUID(), // Use persistent secret in production
+    REDIRECT_URI: process.env.REDIRECT_URI,
+
+    WEBSERVER_PORT: process.env.WEBSERVER_PORT || 3000,
+
 }
 
 //  Within the slash_commands folder, the "config" parameter references this file and can get these properties (e.g "config.client").
