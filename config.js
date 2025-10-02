@@ -17,5 +17,3 @@ module.exports = {
     WEBSERVER_PORT: process.env.WEBSERVER_PORT || 3000,
 
 }
-
-//  Within the slash_commands folder, the "config" parameter references this file and can get these properties (e.g "config.client").
