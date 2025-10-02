@@ -77,3 +77,8 @@ Your Google OAuth2 client secret.
 The redirect URI for OAuth2 callbacks. Defaults to `http://localhost:3000/api/auth` in development.
 
 **Format:** `REDIRECT_URI=http://localhost:3000/api/auth`
+
+#### `SIGNING_SECRET` (optional)
+The secret that signs the data being sent to the client so it can't be forged. This should be treated as secure as a password. In development use, a random UUID is generated so this is optional.
+
+**Format:** `SIGNING_SECRET=ThisShouldBeALongAndSecurePassword`
