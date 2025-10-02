@@ -22,7 +22,8 @@ Your Discord bot's token from the Discord Developer Portal.
 1. Go to [Discord Developer Portal](https://discord.com/developers/applications)
 2. Create a new application or select an existing one
 3. Go to the "Bot" section
-4. Copy the token
+4. Reset token (unavailable until reset)
+5. Copy the token
 
 **Format:** `DISCORD_TOKEN=your-bot-token-here`
 
