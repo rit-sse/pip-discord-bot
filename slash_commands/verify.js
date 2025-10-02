@@ -5,14 +5,13 @@ const { sign } = require('../ext/integrity.js');
 
 
 
-// Create Action Row for the Button
 
 
 const data = new SlashCommandBuilder()
     // Lowercase only, Duplicates may cause problems
     .setName('verify')
     // Set's the description of the command.
-    .setDescription('Verif your email in the RIT SSE Discord Server.');
+    .setDescription('Verify your email in the RIT SSE Discord Server.');
 
 // For all of the options you can use for the builder, use the link below and experiment!
 // https://discordjs.guide/interactive-components/interactions.html#component-interactions
