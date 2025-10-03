@@ -14,6 +14,9 @@ services:
     # Database should start before bot
     depends_on:
       - db
+    # Needed for web server (OAuth2 callbacks)
+    ports:
+      - "3000:3000"
     
     # Production: Remove these mounts
     volumes:
