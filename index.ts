@@ -16,7 +16,7 @@ const { join } = require('node:path');
 // Finds the path of the folder titled "slash_commands"
 const sCommandsPath = join(__dirname, 'slash_commands'); // __dirname is the current directory of this file
 // Finds all JavaScript files in the folder called "slash_commands".
-const sCommandFiles = readdirSync(sCommandsPath).filter(file => file.endsWith('.js') || file.endsWith('.ts'));
+const sCommandFiles = readdirSync(sCommandsPath).filter(file => file.endsWith('.ts'));
 
 // This array is interpreted as slash commands to Discord's API.
 const sCommands = []
