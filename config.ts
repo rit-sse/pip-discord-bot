@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 const { Client, GatewayIntentBits } = require('discord.js');
 const crypto = require('node:crypto');
 // Creates the client for the bot with the proper 'intents' it may need.

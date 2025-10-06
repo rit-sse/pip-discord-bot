@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 const { SlashCommandBuilder } = require('discord.js');
 // This is to help set up the slash command!
 

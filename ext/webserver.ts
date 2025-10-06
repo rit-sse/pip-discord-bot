@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 const { WEBSERVER_PORT, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, SIGNING_SECRET, REDIRECT_URI } = require('../config.js');
 const { verify } = require('../ext/integrity.js');
 const express = require('express');
