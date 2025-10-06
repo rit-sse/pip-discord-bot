@@ -2,8 +2,8 @@
 
 // This is to help set up the slash command!
 const { SlashCommandBuilder, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, ButtonBuilder, ButtonStyle, MessageFlags } = require('discord.js');
-const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, REDIRECT_URI, SIGNING_SECRET } = require('../config.js');
-const { sign } = require('../ext/integrity.js');
+const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, REDIRECT_URI, SIGNING_SECRET } = require('../config.ts');
+const { sign } = require('../ext/integrity.ts');
 
 
 
@@ -21,7 +21,7 @@ const data = new SlashCommandBuilder()
  * The function ran when this file's slash command is used.
  * 
  * @param {DiscordClient} client The API client of the bot.
- * @param {config.js} config The configuration set in config.js.
+ * @param {config.ts} config The configuration set in config.ts.
  * @param {DiscordInteraction} interaction The slash command interaction.
  */
 async function execute(client, config, interaction) {

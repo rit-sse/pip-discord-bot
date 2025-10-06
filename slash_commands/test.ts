@@ -15,7 +15,7 @@ const data = new SlashCommandBuilder()
 * The function ran when this file's slash command is used.
 * 
 * @param {DiscordClient} client The API client of the bot.
-* @param {config.js} config The configuration set in config.js.
+* @param {config.ts} config The configuration set in config.ts.
 * @param {DiscordInteraction} interaction The slash command interaction.
 */
 async function execute(client, config, interaction) {
@@ -37,10 +37,10 @@ async function execute(client, config, interaction) {
     - "config" accesses all variables in the config file.
     - "interaction" https://discord.com/developers/docs/interactions/receiving-and-responding
     
-    - Any added parameters must be set in index.js in an identical order. Execute parameters must be the same in all files.
+    - Any added parameters must be set in index.ts in an identical order. Execute parameters must be the same in all files.
     - Parameters work as local variables; Their values can be changed within the function.
     */
 }
 
-// Exports the data and execute function for use in index.js
+// Exports the data and execute function for use in index.ts
 module.exports = { data, execute };
