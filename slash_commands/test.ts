@@ -15,7 +15,7 @@ const data = new SlashCommandBuilder()
 * The function ran when this file's slash command is used.
 * 
 * @param {DiscordClient} client The API client of the bot.
-* @param {config.ts} config The configuration set in config.ts.
+* @param {config.js} config The configuration set in config.js.
 * @param {DiscordInteraction} interaction The slash command interaction.
 */
 async function execute(client, config, interaction) {
