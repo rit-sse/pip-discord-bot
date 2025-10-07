@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 // The purpose of this file is purely initialization of the bot and all of its commands, as well as command handling.
 
 // Discord definitions (CommonJS requires)
@@ -14,7 +16,7 @@ const { join } = require('node:path');
 // Finds the path of the folder titled "slash_commands"
 const sCommandsPath = join(__dirname, 'slash_commands'); // __dirname is the current directory of this file
 // Finds all JavaScript files in the folder called "slash_commands".
-const sCommandFiles = readdirSync(sCommandsPath).filter(file => file.endsWith('.js'));
+const sCommandFiles = readdirSync(sCommandsPath).filter(file => file.endsWith('.ts'));
 
 // This array is interpreted as slash commands to Discord's API.
 const sCommands = []
@@ -45,7 +47,7 @@ client.once('clientReady', async () => {
   const rest = new REST({ version: '10' }).setToken(TOKEN);
 
   // Start the web server
-  require('./ext/webserver.js');
+  require('./ext/webserver.ts');
 
   await rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: sCommands.map(command => command.toJSON()) })
      .then(() => console.log(`Successfully re-registered application commands.\n\n`))

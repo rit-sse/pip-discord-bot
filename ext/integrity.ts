@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 const crypto = require('node:crypto');
 
 function hash(input) {

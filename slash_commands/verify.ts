@@ -1,7 +1,9 @@
+// @ts-nocheck
+
 // This is to help set up the slash command!
 const { SlashCommandBuilder, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, ButtonBuilder, ButtonStyle, MessageFlags } = require('discord.js');
 const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, REDIRECT_URI, SIGNING_SECRET } = require('../config.js');
-const { sign } = require('../ext/integrity.js');
+const { sign } = require('../ext/integrity.ts');
 
 
 
