@@ -1,6 +1,5 @@
 BEGIN;
 
--- Table: users
 CREATE TABLE IF NOT EXISTS users (
     discord_id BIGINT PRIMARY KEY,
     email VARCHAR(255) UNIQUE NOT NULL,
@@ -13,7 +12,7 @@ CREATE TABLE IF NOT EXISTS users (
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL
 );
 
--- Function to automate updated_at field
+-- Automation for updated_at field
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -22,7 +21,7 @@ BEGIN
 END;
 $$ language 'plpgsql';
 
--- Apply the trigger to the tables that have an 'updated_at' column.
+-- Apply automation to users table
 CREATE TRIGGER update_users_updated_at
 BEFORE UPDATE ON users
 FOR EACH ROW
