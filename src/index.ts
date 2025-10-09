@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 // The purpose of this file is purely initialization of the bot and all of its commands, as well as command handling.
 
 // Discord definitions (CommonJS requires)
