@@ -2,10 +2,10 @@
   "name": "pip-discord-bot",
   "version": "1.0.0",
   "description": "Created for the RIT SSE Discord Server",
-  "main": "index.ts",
+  "main": "src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsx index.ts"
+    "start": "tsx src/index.ts"
   },
   "repository": {
     "type": "git",
