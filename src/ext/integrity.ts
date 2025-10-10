@@ -1,16 +1,15 @@
-// @ts-nocheck
+import crypto from 'node:crypto';
 
-const crypto = require('node:crypto');
-
-function hash(input) {
-    return crypto.createHash('sha256').update(input).digest('hex')
+function hash(input: string): string {
+    return crypto.createHash('sha256').update(input).digest('hex');
 }
-function sign(input, secret) {
+
+function sign(input: string, secret: string): string {
     const encoded = encodeURIComponent(input);
-    return `${encoded}/${hash(hash(Buffer.from(secret).toString('base64')) + encoded)}`
+    return `${encoded}/${hash(hash(Buffer.from(secret).toString('base64')) + encoded)}`;
 }
 
-function verify(input, secret) {
+function verify(input: string, secret: string): string | null {
     const parts = input.split('/');
     const payload = decodeURIComponent(parts[0] || '');
     if (
@@ -24,4 +23,4 @@ function verify(input, secret) {
     return payload;
 }
 
-module.exports = { hash, sign, verify };
+export { hash, sign, verify };
