@@ -9,6 +9,7 @@ import {
 } from 'discord.js';
 import { GOOGLE_CLIENT_ID, REDIRECT_URI, SIGNING_SECRET } from '../config.js';
 import { sign } from '../ext/integrity.js';
+import { OAuth2Payload } from '../types.js';
 
 const data = new SlashCommandBuilder()
     // Lowercase only, Duplicates may cause problems
@@ -48,7 +49,7 @@ async function execute(client: Client, interaction: ChatInputCommandInteraction)
             state: sign(JSON.stringify({
                 discord: interaction.user.id,
                 server: interaction.guildId
-            }), SIGNING_SECRET)
+            } as OAuth2Payload), SIGNING_SECRET)
         }).toString());
 
     const oauth2LinkRow = new ActionRowBuilder<ButtonBuilder>()

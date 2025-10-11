@@ -26,3 +26,8 @@ export interface Config {
   REDIRECT_URI?: string;
   WEBSERVER_PORT: string | number;
 }
+
+export interface OAuth2Payload {
+  discord: string;
+  server: string;
+}

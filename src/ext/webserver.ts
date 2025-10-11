@@ -1,6 +1,7 @@
 import { WEBSERVER_PORT, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, SIGNING_SECRET, REDIRECT_URI } from '../config.js';
 import { verify } from '../ext/integrity.js';
 import express from 'express';
+import { OAuth2Payload } from '../types.js';
 
 const app = express();
 const port = WEBSERVER_PORT
@@ -14,7 +15,7 @@ app.get('/api/auth', async (req, res) => {
         const signedPayload = searchParams.state;
         const code = searchParams.code;
         const payload = verify(signedPayload, SIGNING_SECRET); // We use secrets so the client can't forge requests
-        const {discord, server} = JSON.parse(payload || '{}');
+        const {discord, server} = JSON.parse(payload || '{}') as OAuth2Payload;
         if (!payload || !code || !discord || !server) {
             return invalidRequest("Missing required parameters");
         }
