@@ -1,13 +1,15 @@
-// @ts-nocheck
-
-// This is to help set up the slash command!
-const { SlashCommandBuilder, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, ButtonBuilder, ButtonStyle, MessageFlags } = require('discord.js');
-const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, REDIRECT_URI, SIGNING_SECRET } = require('../config.js');
-const { sign } = require('../ext/integrity.ts');
-
-
-
-
+import { 
+  SlashCommandBuilder, 
+  ActionRowBuilder, 
+  ButtonBuilder, 
+  ButtonStyle, 
+  MessageFlags,
+  Client,
+  ChatInputCommandInteraction 
+} from 'discord.js';
+import { GOOGLE_CLIENT_ID, REDIRECT_URI, SIGNING_SECRET } from '../config.js';
+import { sign } from '../ext/integrity.js';
+import { OAuth2Payload } from '../types.js';
 
 const data = new SlashCommandBuilder()
     // Lowercase only, Duplicates may cause problems
@@ -24,7 +26,15 @@ const data = new SlashCommandBuilder()
  * @param {config.js} config The configuration set in config.js.
  * @param {DiscordInteraction} interaction The slash command interaction.
  */
-async function execute(client, config, interaction) {
+async function execute(client: Client, interaction: ChatInputCommandInteraction): Promise<void> {
+    
+    if (!GOOGLE_CLIENT_ID || !REDIRECT_URI) {
+        await interaction.reply({
+            content: 'OAuth2 configuration is not properly set up.',
+            flags: MessageFlags.Ephemeral
+        });
+        return;
+    }
 
     // Create Button that returns the OAUTH2 link to verify their email.
     const oauth2LinkButton = new ButtonBuilder()
@@ -39,12 +49,11 @@ async function execute(client, config, interaction) {
             state: sign(JSON.stringify({
                 discord: interaction.user.id,
                 server: interaction.guildId
-            }), SIGNING_SECRET)
-        }))
+            } as OAuth2Payload), SIGNING_SECRET)
+        }).toString());
 
-    const oauth2LinkRow = new ActionRowBuilder()
+    const oauth2LinkRow = new ActionRowBuilder<ButtonBuilder>()
         .addComponents(oauth2LinkButton);
-
 
     // Respond with a ephemeral message with the button to open the OAUTH2 link.
     await interaction.reply({
@@ -52,7 +61,6 @@ async function execute(client, config, interaction) {
         components: [oauth2LinkRow],
         flags: MessageFlags.Ephemeral
     });
-
 }
 
-module.exports = { data, execute };
+export default { data, execute };
