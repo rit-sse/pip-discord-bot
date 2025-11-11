@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Collection, Client, ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
 
 // Extend the Discord.js Client to include our custom properties

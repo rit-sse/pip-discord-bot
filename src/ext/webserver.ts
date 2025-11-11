@@ -4,7 +4,7 @@ import express from 'express';
 import { OAuth2Payload } from '../types.js';
 
 const app = express();
-const port = WEBSERVER_PORT
+const port = WEBSERVER_PORT;
 
 app.use(express.json());
 

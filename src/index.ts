@@ -76,15 +76,15 @@ client.on('interactionCreate', async interaction => {
 
 // When a user is added to the Discord Server...
 client.on('guildMemberAdd', async member => {
-  member.send(`Welcome to the RIT SSE Discord Server! Please read \`#info\` channel and verify using \`/verify\`!`)
+  member.send(`Welcome to the RIT SSE Discord Server! Please read \`#info\` channel and verify using \`/verify\`!`);
   // Add unverified role?
-})
+});
 
 // When the bot is invited to another server...
 client.on('guildCreate', async () => {
   // Because this bot is curated for the current SSE Discord, it would work improperly in others.
   // guild.leave();
-})
+});
 
 // Username here, Forgot Password button there and...done!
 client.login(TOKEN);
