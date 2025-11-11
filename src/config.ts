@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { Client } from 'discord.js';
 import crypto from 'node:crypto';
 
