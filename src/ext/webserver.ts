@@ -1,22 +1,21 @@
-// @ts-nocheck
-
-const { WEBSERVER_PORT, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, SIGNING_SECRET, REDIRECT_URI } = require('../config.js');
-const { verify } = require('../ext/integrity.ts');
-const express = require('express');
+import { WEBSERVER_PORT, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, SIGNING_SECRET, REDIRECT_URI } from '../config.js';
+import { verify } from '../ext/integrity.js';
+import express from 'express';
+import { OAuth2Payload } from '../types.js';
 
 const app = express();
-const port = WEBSERVER_PORT
+const port = WEBSERVER_PORT;
 
 app.use(express.json());
 
 app.get('/api/auth', async (req, res) => {
-    const invalidRequest = (message) => res.status(400).send(message || 'Invalid request');
+    const invalidRequest = (message: string) => res.status(400).send(message || 'Invalid request');
     try {
-        const searchParams = req.query
-        const signedPayload = searchParams.state
+        const searchParams = req.query as { [key: string]: string };
+        const signedPayload = searchParams.state;
         const code = searchParams.code;
         const payload = verify(signedPayload, SIGNING_SECRET); // We use secrets so the client can't forge requests
-        const {discord, server} = JSON.parse(payload || '{}');
+        const {discord, server} = JSON.parse(payload || '{}') as OAuth2Payload;
         if (!payload || !code || !discord || !server) {
             return invalidRequest("Missing required parameters");
         }
@@ -50,6 +49,8 @@ app.get('/api/auth', async (req, res) => {
         const email = infoRequestBody.email;
         const name = infoRequestBody.name;
 
+        console.log(`Verified ${email} (${name}) for Discord user ${discord} in server ${server}`);
+
         // TODO: Link `discord` with `email` in db
         // TODO: Change username to `name`
         // TODO: Assign verified role
@@ -57,11 +58,14 @@ app.get('/api/auth', async (req, res) => {
         res.send(`Successfully verified ${email} (${name})! You may close this window and return to Discord.`);
 
     } catch (err) {
-        console.error('Error during /api/auth:', err && err.message ? err.message : err);
+        const errorMessage = err instanceof Error ? err.message : String(err);
+        console.error('Error during /api/auth:', errorMessage);
         res.status(500).send('Server error: An unexpected error occurred.');
     }
 });
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
 });
+
+export default server;
