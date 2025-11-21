@@ -1,0 +1,8 @@
+CREATE TABLE users (
+    time_verified TIMESTAMP WITH TIME ZONE NOT NULL,
+    discord_id BIGINT NOT NULL UNIQUE PRIMARY KEY,
+    email VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    is_banned BOOLEAN NOT NULL DEFAULT FALSE,
+    banned_reason TEXT
+);
