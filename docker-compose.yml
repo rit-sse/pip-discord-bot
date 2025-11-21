@@ -14,9 +14,6 @@ services:
     # Database should start before bot
     depends_on:
       - db
-    # Needed for web server (OAuth2 callbacks)
-    ports:
-      - "3000:3000"
     
     # Production: Remove these mounts
     volumes:
@@ -39,6 +36,7 @@ services:
     # This helps persist db states across container restarts
     volumes:
       - postgres-data:/var/lib/postgresql/data
+      - ./db/init:/docker-entrypoint-initdb.d
     # Ports avoid conflicts if local Postgres is installed, but allow 'remote' connection
     ports:
       - "5433:5432"
