@@ -1,11 +1,11 @@
-import { 
-  SlashCommandBuilder, 
-  ActionRowBuilder, 
-  ButtonBuilder, 
-  ButtonStyle, 
-  MessageFlags,
-  Client,
-  ChatInputCommandInteraction 
+import {
+    SlashCommandBuilder,
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle,
+    MessageFlags,
+    Client,
+    ChatInputCommandInteraction
 } from 'discord.js';
 import { GOOGLE_CLIENT_ID, REDIRECT_URI, SIGNING_SECRET } from '../config.js';
 import { sign } from '../ext/integrity.js';
@@ -27,7 +27,7 @@ const data = new SlashCommandBuilder()
  * @param {DiscordInteraction} interaction The slash command interaction.
  */
 async function execute(client: Client, interaction: ChatInputCommandInteraction): Promise<void> {
-    
+
     if (!GOOGLE_CLIENT_ID || !REDIRECT_URI) {
         await interaction.reply({
             content: 'OAuth2 configuration is not properly set up.',
@@ -38,7 +38,7 @@ async function execute(client: Client, interaction: ChatInputCommandInteraction)
 
     // Create Button that returns the OAUTH2 link to verify their email.
     const oauth2LinkButton = new ButtonBuilder()
-        .setLabel('Verify Email')
+        .setLabel('Verify RIT Email ')
         .setStyle(ButtonStyle.Link)
         .setURL('https://accounts.google.com/o/oauth2/v2/auth?' + new URLSearchParams({
             client_id: GOOGLE_CLIENT_ID,
@@ -57,7 +57,11 @@ async function execute(client: Client, interaction: ChatInputCommandInteraction)
 
     // Respond with a ephemeral message with the button to open the OAUTH2 link.
     await interaction.reply({
-        content: 'To verify your email, please click the button below to verify.',
+        embeds: [{
+            title: 'RIT SSE Email Verification',
+            description: 'Click the button below to verify your RIT email and gain access to the rest of the Discord server.',
+            color: 0x6699cc
+        }],
         components: [oauth2LinkRow],
         flags: MessageFlags.Ephemeral
     });
