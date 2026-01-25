@@ -12,6 +12,14 @@ CREATE TABLE IF NOT EXISTS users (
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS servers (
+    server_id BIGINT PRIMARY KEY,
+    verified_role_id_1 BIGINT,
+    verified_role_id_2 BIGINT,
+    verified_role_id_3 BIGINT,
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL
+);
+
 -- Automation for updated_at field
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
@@ -24,6 +32,12 @@ $$ language 'plpgsql';
 -- Apply automation to users table
 CREATE TRIGGER update_users_updated_at
 BEFORE UPDATE ON users
+FOR EACH ROW
+EXECUTE FUNCTION update_updated_at_column();
+
+-- Apply automation to servers table
+CREATE TRIGGER update_servers_updated_at
+BEFORE UPDATE ON servers
 FOR EACH ROW
 EXECUTE FUNCTION update_updated_at_column();
 

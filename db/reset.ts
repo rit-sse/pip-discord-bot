@@ -14,6 +14,9 @@ async function resetDb() {
     try {
         await client.query("TRUNCATE TABLE users RESTART IDENTITY CASCADE;");
         console.log("Database reset: users table truncated");
+        await client.query("TRUNCATE TABLE servers RESTART IDENTITY CASCADE;");
+        console.log("Database reset: servers table truncated");
+
     } finally {
         client.release();
         await pool.end();
