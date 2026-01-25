@@ -14,6 +14,9 @@ services:
     # Database should start before bot
     depends_on:
       - db
+
+    ports:
+      - "3000:3000"
     
     # Production: Remove these mounts
     volumes:
