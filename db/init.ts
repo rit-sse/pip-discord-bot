@@ -22,7 +22,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
         if (!res.rows[0].exists) {
             // If not, run schema.sql to create it
             // This will also create the servers table
-            const schema = fs.readFileSync(path.join(__dirname, "./schema.sql"), "utf-8");
+            const schema = fs.readFileSync(path.join(__dirname, "./init/schema.sql"), "utf-8");
             await client.query(schema);
             console.log("Database schema initialized.");
         } else {
