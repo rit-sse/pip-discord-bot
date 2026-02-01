@@ -39,7 +39,7 @@ Once you have the above pre-reqs, continue with the environment setup outlined b
 !! Docker Desktop note -- Ensure Docker Desktop is always open and running while performing any Docker operation. 
 
 ## 1st Time Startup & Build
-1. Ensure you have a .env file based on the env.example found in the project repo. See [ENV-VARS.md](ENV-VARS.md) for an explanation of the required environment variables.
+1. Ensure you have a .env file based on the env.example found in the project repo.
 2. Using an IDE of your choice, open the codebase.
 3. Open a new terminal (ctrl/cmd+j), ensure you are in the project root directoy, and enter `docker compose up --build`. The `--build` flag ensures Docker will build your app from scratch, and cache the resources neccesary to (re-)build it again. The first time, this will take a WHILE, anywhere from 5-10 minutes. Maybe you can run that command while you finish reading this doc!
 
