@@ -2,6 +2,7 @@ import { WEBSERVER_PORT, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, SIGNING_SECRET,
 import { verify } from '../ext/integrity.js';
 import express from 'express';
 import { OAuth2Payload } from '../types.js';
+import { verifyUserAsRoot } from './db-api.js';
 
 const app = express();
 const port = WEBSERVER_PORT;
@@ -55,6 +56,11 @@ app.get('/api/auth', async (req, res) => {
         // TODO: Link `discord` with `email` in db
         // TODO: Change username to `name`
         // TODO: Assign verified role
+        verifyUserAsRoot(discord, email, name, server).catch(err => {
+            console.error("Error verifying user in database:", err);
+            res.send('Verification succeeded, but there was an error updating the database. Please contact support.');
+            return;
+        });
 
         res.send(`Successfully verified ${email} (${name})! You may close this window and return to Discord.`);
 
