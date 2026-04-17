@@ -10,6 +10,8 @@ import {
 import { GOOGLE_CLIENT_ID, REDIRECT_URI, SIGNING_SECRET } from '../config.js';
 import { sign } from '../ext/integrity.js';
 import { OAuth2Payload } from '../types.js';
+import { getUserVerificationLevel, isUserBanned, isUserVerified, verifyUserForServer } from '../ext/db-api.js';
+import VerificationLevels from '../ext/verification-levels.js';
 
 const data = new SlashCommandBuilder()
     // Lowercase only, Duplicates may cause problems
@@ -27,7 +29,41 @@ const data = new SlashCommandBuilder()
  * @param {DiscordInteraction} interaction The slash command interaction.
  */
 async function execute(client: Client, interaction: ChatInputCommandInteraction): Promise<void> {
+
+    if (await isUserBanned(interaction.user.id)) {
+        await interaction.reply({
+            content: 'You are banned from verifying. If you believe this is a mistake, please contact support.',
+            flags: MessageFlags.Ephemeral
+        });
+        return;
+    }
     
+    if (await isUserVerified(interaction.user.id, interaction.guildId ?? '')) {
+        await interaction.reply({
+            content: 'You are already verified!',
+            flags: MessageFlags.Ephemeral
+        });
+        return;
+    }
+
+    if (await getUserVerificationLevel(interaction.user.id) === VerificationLevels.ROOT) {
+        await verifyUserForServer(interaction.user.id, interaction.guildId ?? '');
+        await interaction.reply({
+            content: 'You have been verified for this server!',
+            flags: MessageFlags.Ephemeral
+        });
+        return;
+    } else if (await getUserVerificationLevel(interaction.user.id) === VerificationLevels.SERVER) {
+        await interaction.reply({
+            content: 'Please ask a server admin to verify you for this server. Automatic verification is disabled for your account.',
+            flags: MessageFlags.Ephemeral
+        });
+        return;
+    }
+
+
+
+
     if (!GOOGLE_CLIENT_ID || !REDIRECT_URI) {
         await interaction.reply({
             content: 'OAuth2 configuration is not properly set up.',
