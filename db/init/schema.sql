@@ -2,12 +2,14 @@ BEGIN;
 
 CREATE TABLE IF NOT EXISTS users (
     discord_id BIGINT PRIMARY KEY,
+    server_ids BIGINT[] NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
     is_banned BOOLEAN NOT NULL,
     ban_reason VARCHAR(255),
-    verified_at TIMESTAMP WITH TIME ZONE,
+    verification_level SMALLINT NOT NULL,
+    verified_at TIMESTAMP WITH TIME ZONE NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE NOT NULL,
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL
 );
