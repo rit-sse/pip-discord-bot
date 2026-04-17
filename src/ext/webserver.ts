@@ -36,6 +36,7 @@ app.get('/api/auth', async (req, res) => {
 
         const tokenRequestBody = await tokenResponse.json();
         if (!tokenRequestBody.access_token) {
+            console.error("Failed to exchange token. Google responded with:", tokenRequestBody);
             return invalidRequest("No access token received");
         }
 

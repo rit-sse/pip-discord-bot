@@ -56,7 +56,7 @@ Your Google OAuth2 client ID for email verification.
 2. Create a new project or select an existing one
 3. Go to "Credentials" > "Create Credentials" > "OAuth 2.0 Client IDs"
 4. Configure the OAuth consent screen
-    - Add "http://localhost:3000" to "Authorized JavaScript origins"
+    - Add "http://localhost:3000" (or whatever port you want to run this on) to "Authorized JavaScript origins"
     - Add "http://localhost:3000/api/auth/" to "Authorized redirect URIs"
     - Save OAuth Client
 
