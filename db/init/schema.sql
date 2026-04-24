@@ -10,8 +10,8 @@ CREATE TABLE IF NOT EXISTS users (
     ban_reason VARCHAR(255),
     verification_level SMALLINT NOT NULL,
     verified_at TIMESTAMP WITH TIME ZONE NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE NOT NULL,
-    updated_at TIMESTAMP WITH TIME ZONE NOT NULL
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE IF NOT EXISTS servers (
@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS servers (
     verified_role_id_1 BIGINT,
     verified_role_id_2 BIGINT,
     verified_role_id_3 BIGINT,
-    updated_at TIMESTAMP WITH TIME ZONE NOT NULL
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
 );
 
 -- Automation for updated_at field
